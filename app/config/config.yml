@@ -18,7 +18,7 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer: { enable_annotations: true }
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
@@ -65,3 +65,36 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+# FOSRest Configuration
+fos_rest:
+    routing_loader:
+        default_format: json
+    body_listener: true
+    format_listener:
+        rules:
+            - { path: '^/', priorities: ['json'], fallback_format: json, prefer_extension: false }
+    param_fetcher_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
+    exception:
+            codes:
+                'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+                'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+            messages:
+                'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+    access_denied_listener:
+        json: true
+    disable_csrf_role: ROLE_API
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: ['*']
+        allow_headers: ['*']
+        allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+        max_age: 3600
+        hosts: []
+        origin_regex: false

@@ -1,3 +1,15 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+users:
+    resource: AppBundle\Controller\UserController
+    type: rest
+
+groups:
+    resource: AppBundle\Controller\GroupController
+    type: rest
+
+association:
+    resource: AppBundle\Controller\AssociationController
+    type: rest
